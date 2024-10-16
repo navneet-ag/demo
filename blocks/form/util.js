@@ -86,7 +86,7 @@ export function getHTMLRenderType(fd) {
   return fd?.fieldType?.replace('-input', '') ?? 'text';
 }
 
-export function createCaptchaWrapper(fd, tagName = 'div', labelFn = createLabel){
+export function createCaptchaWrapper(fd, tagName = 'div') {
   const fieldWrapper = document.createElement(tagName);
   const nameStyle = fd.name ? ` field-${toClassName(fd.name)}` : '';
   const renderType = getHTMLRenderType(fd);

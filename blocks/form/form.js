@@ -5,7 +5,7 @@ import {
   stripTags,
   checkValidation,
   toClassName,
-  createCaptchaWrapper
+  createCaptchaWrapper,
 } from './util.js';
 import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorator from './mappings.js';
@@ -351,22 +351,20 @@ export async function generateFormRendition(panel, container, getItems = (p) => 
     const { fieldType } = field;
     if (fieldType === 'captcha') {
       captchaField = field;
-      const element = createCaptchaWrapper(field); 
-      return element;
-    } else {
-      const element = renderField(field);
-      if (field.appliedCssClassNames) {
-        element.className += ` ${field.appliedCssClassNames}`;
-      }
-      colSpanDecorator(field, element);
-      if (field?.fieldType === 'panel') {
-        await generateFormRendition(field, element, getItems);
-        return element;
-      }
-      await componentDecorator(element, field, container);
+      const element = createCaptchaWrapper(field);
       return element;
     }
-    return null;
+    const element = renderField(field);
+    if (field.appliedCssClassNames) {
+      element.className += ` ${field.appliedCssClassNames}`;
+    }
+    colSpanDecorator(field, element);
+    if (field?.fieldType === 'panel') {
+      await generateFormRendition(field, element, getItems);
+      return element;
+    }
+    await componentDecorator(element, field, container);
+    return element;
   });
 
   const children = await Promise.all(promises);
@@ -398,14 +396,14 @@ async function createFormForAuthoring(formDef) {
 }
 
 function getSitePageName(path) {
-  if(path == null) return "";
+  if (path == null) return '';
   const index = path.lastIndexOf('/jcr:content');
   if (index === -1) {
-    return "";
+    return '';
   }
-  path = path.substring(0, index);
-  const pathArray = path.split('/');
-  return pathArray[pathArray.length - 1].replaceAll("-","_");
+  const mpath = path.substring(0, index);
+  const pathArray = mpath.split('/');
+  return pathArray[pathArray.length - 1].replaceAll('-', '_');
 }
 
 export async function createForm(formDef, data) {
@@ -421,8 +419,8 @@ export async function createForm(formDef, data) {
   let captcha;
   if (captchaField) {
     const config = captchaField?.properties?.['fd:captcha']?.config;
-    const page_name = getSitePageName(captchaField?.properties?.['fd:path']);
-    captcha = new GoogleReCaptcha(config,captchaField.id, captchaField.name, page_name); 
+    const pageName = getSitePageName(captchaField?.properties?.['fd:path']);
+    captcha = new GoogleReCaptcha(config, captchaField.id, captchaField.name, pageName);
     captcha.loadCaptcha(form);
   }
 

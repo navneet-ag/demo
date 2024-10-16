@@ -100,13 +100,13 @@ function generateCaptchaRendition(captchaFieldWrapper, fragmentDefinition) {
   const titleEl = document.createElement('div');
   titleEl.classList.add('captcha-title');
   titleEl.textContent = fragmentDefinition.label?.value || fragmentDefinition.name;
-  titleEl.id ="recaptcha-title";
+  titleEl.id = 'recaptcha-title';
   captchaFieldWrapper.appendChild(titleEl);
 }
 
 function annotateRecaptcha(captchaFieldWrapper, recaptchaDefinition) {
   captchaFieldWrapper.classList.toggle('captcha-wrapper', true);
-  if (document.documentElement.classList.contains('adobe-ue-edit')){
+  if (document.documentElement.classList.contains('adobe-ue-edit')) {
     const newFieldWrapper = captchaFieldWrapper.cloneNode(true);
     newFieldWrapper.setAttribute('data-aue-type', 'component');
     newFieldWrapper.setAttribute('data-aue-resource', `urn:aemconnection:${recaptchaDefinition.properties['fd:path']}`);

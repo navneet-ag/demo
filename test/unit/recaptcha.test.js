@@ -7,19 +7,19 @@ import GoogleReCaptcha from '../../blocks/form/integrations/recaptcha.js';
 const siteKey = 'test-site-key';
 const testToken = 'token123';
 
-var configv3 = {
+let configv3 = {
   siteKey,
   uri: 'https://www.recaptcha.net/recaptcha/api.js?render=',
 };
-var configEnterprise = {
+let configEnterprise = {
   siteKey,
   uri: 'https://www.recaptcha.net/recaptcha/enterprise.js',
-  version: 'enterprise'
+  version: 'enterprise',
 };
-var configNull = {
+let configNull = {
   siteKey: null,
   uri: 'https://www.google.com/recaptcha/api.js',
-}
+};
 
 let form;
 
@@ -29,7 +29,7 @@ describe('Google recaptcha Integeration', () => {
       ready: (callback) => {
         callback();
       },
-      enterprise :{
+      enterprise: {
         ready: (callback) => {
           callback();
         },
@@ -38,7 +38,7 @@ describe('Google recaptcha Integeration', () => {
             return Promise.resolve(testToken);
           }
           return Promise.resolve(null);
-        }
+        },
       },
       execute: (key, options) => {
         if (key === siteKey && options.action === 'submit') {
