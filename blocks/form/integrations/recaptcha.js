@@ -46,15 +46,13 @@ export default class GoogleReCaptcha {
         });
       });
       if(submit==null){
-        console.error('Submit button is not defined');
-        alert('Captcha can not be loaded: Add Submit button.');
+        alert('Captcha can not be loaded. Add Submit button.');
       }
       else
         obs.observe(submit);
     }
     else{
-      console.warn('Form or siteKey is not defined');
-      alert('Captcha can not be loaded: Add siteKey.');
+      alert('Captcha can not be loaded. Captcha configuration in missing.');
     }
   }
 
