@@ -49,8 +49,7 @@ export default class GoogleReCaptcha {
       });
       if (submit == null) {
         alert('Captcha can not be loaded. Add Submit button.');
-      }
-      else {
+      } else {
         obs.observe(submit);
       }
     } else {
@@ -69,7 +68,7 @@ export default class GoogleReCaptcha {
           const submitAction = `submit_${this.formName}_${this.name}`;
           const token = await grecaptcha.enterprise.execute(
             this.config.siteKey,
-            { action: submitAction }
+            { action: submitAction },
           );
           resolve(token);
         });

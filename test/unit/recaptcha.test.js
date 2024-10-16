@@ -7,16 +7,16 @@ import GoogleReCaptcha from '../../blocks/form/integrations/recaptcha.js';
 const siteKey = 'test-site-key';
 const testToken = 'token123';
 
-let configv3 = {
+const configv3 = {
   siteKey,
   uri: 'https://www.recaptcha.net/recaptcha/api.js?render=',
 };
-let configEnterprise = {
+const configEnterprise = {
   siteKey,
   uri: 'https://www.recaptcha.net/recaptcha/enterprise.js',
   version: 'enterprise',
 };
-let configNull = {
+const configNull = {
   siteKey: null,
   uri: 'https://www.google.com/recaptcha/api.js',
 };
