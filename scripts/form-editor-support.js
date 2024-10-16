@@ -22,6 +22,7 @@ import { loadCSS } from './aem.js';
 
 window.currentMode = 'preview';
 let activeWizardStep;
+const OOTBViewTypeComponentsWithoutModel = ['wizard', 'toggleable-link', 'modal'];
 
 export function getItems(container) {
   if (container[':itemsOrder'] && container[':items']) {
@@ -96,17 +97,33 @@ function annotateFormFragment(fragmentFieldWrapper, fragmentDefinition) {
 }
 
 function getPropertyModel(fd) {
-  if (!fd[':type'] || fd[':type'].startsWith('core/fd/components') || fd[':type'] === 'wizard') {
+  if (!fd[':type'] || fd[':type'].startsWith('core/fd/components') || OOTBViewTypeComponentsWithoutModel.includes(fd[':type'])) {
     return fd.fieldType === 'image' || fd.fieldType === 'button' ? `form-${fd.fieldType}` : fd.fieldType;
   }
   return fd[':type'];
+}
+
+function annotateContainer(fieldWrapper, fd) {
+  fieldWrapper.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
+  fieldWrapper.setAttribute('data-aue-model', getPropertyModel(fd));
+  fieldWrapper.setAttribute('data-aue-label', fd.label?.value || fd.name);
+  fieldWrapper.setAttribute('data-aue-type', 'container');
+  fieldWrapper.setAttribute('data-aue-behavior', 'component');
+  fieldWrapper.setAttribute('data-aue-filter', 'form');
+}
+
+export function getContainerChildNodes(container, fd) {
+  if (fd[':type'] === 'modal') {
+    return container.querySelector('.modal-content')?.childNodes;
+  }
+  return container.childNodes;
 }
 
 function annotateItems(items, formDefinition, formFieldMap) {
   try {
     for (let i = items.length - 1; i >= 0; i -= 1) {
       const fieldWrapper = items[i];
-      if (fieldWrapper.classList.contains('field-wrapper')) {
+      if (fieldWrapper.classList?.contains('field-wrapper')) {
         const { id } = fieldWrapper.dataset;
         const fd = getFieldById(formDefinition, id, formFieldMap);
         if (fd && fd.properties) {
@@ -121,13 +138,8 @@ function annotateItems(items, formDefinition, formFieldMap) {
             if (fd.properties['fd:fragment']) {
               annotateFormFragment(fieldWrapper, fd);
             } else {
-              fieldWrapper.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
-              fieldWrapper.setAttribute('data-aue-model', fd.fieldType);
-              fieldWrapper.setAttribute('data-aue-label', fd.label?.value || fd.name);
-              fieldWrapper.setAttribute('data-aue-type', 'container');
-              fieldWrapper.setAttribute('data-aue-behavior', 'component');
-              fieldWrapper.setAttribute('data-aue-filter', 'form');
-              annotateItems(fieldWrapper.childNodes, formDefinition, formFieldMap);
+              annotateContainer(fieldWrapper, fd);
+              annotateItems(getContainerChildNodes(fieldWrapper, fd), formDefinition, formFieldMap);
               // retain wizard step selection
               if (activeWizardStep === fieldWrapper.dataset.id) {
                 handleWizardNavigation(fieldWrapper.parentElement, fieldWrapper);
@@ -279,8 +291,8 @@ export async function applyChanges(event) {
           }
           const parent = element.closest('.panel-wrapper') || element.closest('form') || element.querySelector('form');
           const parentDef = getFieldById(formDef, parent.dataset.id, {});
-          if (parent.classList.contains('panel-wrapper')) {
-            const panelLabel = parent.querySelector('legend');
+          if (parent.classList?.contains('panel-wrapper') && parent.querySelector(`legend[for=${parent.dataset.id}]`)) {
+            const panelLabel = parent.querySelector(`legend[for=${parent.dataset.id}]`);
             parent.replaceChildren(panelLabel);
           } else {
             parent.replaceChildren();
@@ -289,7 +301,7 @@ export async function applyChanges(event) {
             parent.removeAttribute('data-component-status');
           }
           await generateFormRendition(parentDef, parent, getItems);
-          annotateItems(parent.childNodes, formDef, {});
+          annotateItems(getContainerChildNodes(parent, parentDef), formDef, {});
           return true;
         }
         return false;
@@ -299,7 +311,7 @@ export async function applyChanges(event) {
   return true;
 }
 
-function attachEventListners(main) {
+export function attachEventListners(main) {
   [
     'aue:content-patch',
     'aue:content-update',
@@ -322,16 +334,18 @@ function attachEventListners(main) {
     });
   });
 
-  document.body.addEventListener('aue:ui-edit', () => {
+  const ueEditModeHandler = () => {
     window.currentMode = 'edit';
     const forms = document.querySelectorAll('form');
     annotateFormsForEditing(forms);
-  });
+  };
+
+  if (document.documentElement.classList.contains('adobe-ue-edit')) {
+    ueEditModeHandler();
+  }
+  document.body.addEventListener('aue:ui-edit', ueEditModeHandler);
 }
 
-loadCSS(`${window.hlx.codeBasePath}/scripts/form-editor-support.css`);
-attachEventListners(document.querySelector('main'));
-const forms = document.querySelectorAll('form');
-annotateFormsForEditing(forms);
 const observer = new MutationObserver(instrumentForms);
 observer.observe(document, { childList: true, subtree: true, attributeFilter: ['form'] });
+loadCSS(`${window.hlx.codeBasePath}/scripts/form-editor-support.css`);

@@ -6,6 +6,7 @@ export class UniversalEditorBase {
   selectors = {
     contentTreeLabel: '[aria-label="Content tree"]',
     ruleEditor: 'button[aria-label="Rule Editor"]',
+    preview: '[aria-label="Preview"]',
     mainInContentTree: 'li > [class*="content expandable collapsed"]',
     adaptiveFormPathInUE: 'main[class="Canvas"] div[data-resource*="content/root/section_0/form"]',
     componentPath: 'main[class="Canvas"] [data-resource*="/',
@@ -18,13 +19,19 @@ export class UniversalEditorBase {
     defaultAndBlockMenu: 'div[role="presentation"][class*="Submenu-wrapper"]',
     adaptiveFormPathInBlockMenu: 'div[role="presentation"] div[data-key="blocks_form"]',
     iFrame: 'iframe[name="Main Content"]',
+    iFrameInPreview: 'iframe[class="penpal"]',
     panelHeaders: 'div[class="PanelHeader"]',
     propertyPagePath: 'button[aria-label="Properties"]',
-    componentTitleInProperties: 'input[aria-label="Title"]',
+    componentTitleInProperties: 'textarea[aria-label="Title"]',
     deleteButton: 'button[aria-label="Delete"]',
     deleteConfirmationButton: '[data-variant="negative"][class*="aaz5ma_spectrum-ButtonGroup-Button"]',
     deletePopup: 'section[class*="spectrum-Dialog--destructive"]',
   };
+
+  // eslint-disable-next-line class-methods-use-this
+  componentLocatorForPreview(componentName) {
+    return `div[data-id*="${componentName}"]`;
+  }
 
   // eslint-disable-next-line class-methods-use-this
   componentLocatorForUe(component) {
