@@ -44,6 +44,9 @@
           "...": "./form/_button.json#/definitions"
         },
         {
+          "...": "./form/_recaptcha.json#/definitions"
+        },
+        {
           "...": "./form/_checkbox.json#/definitions"
         },
         {
@@ -81,9 +84,6 @@
         },
         {
           "...": "./form/_rating.json#/definitions"
-        },
-        {
-          "...": "./form/_recaptcha.json#/definitions"
         },
         {
           "...": "./form/_reset-button.json#/definitions"
