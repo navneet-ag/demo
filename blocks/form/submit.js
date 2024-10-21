@@ -1,4 +1,3 @@
-import { get } from 'http';
 import { DEFAULT_THANK_YOU_MESSAGE, getRouting, getSubmitBaseUrl } from './constant.js';
 
 export function submitSuccess(e, form) {
