@@ -2096,18 +2096,6 @@
     ]
   },
   {
-    "id": "captcha",
-    "fields": [
-        {
-            "component": "text",
-            "valueType": "string",
-            "name": "alt",
-            "value": "Default alt",
-            "label": "Alt Text"
-        }
-    ]
-  },
-  {
     "id": "tnc",
     "fields": [
       {
