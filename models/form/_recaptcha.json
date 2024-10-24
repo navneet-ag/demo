@@ -29,29 +29,11 @@
                     "collapsible": false,
                     "fields": [
                         {
-                            "...": "./_common.json#/basicfields"
-                        }
-                    ]
-                },
-                {
-                    "component": "container",
-                    "name": "validation",
-                    "label": "Validation",
-                    "collapsible": true,
-                    "fields": [
-                        {
                             "component": "text",
-                            "name": "mandatoryMessage",
-                            "label": "Error message",
+                            "name": "name",
+                            "label": "Name",
                             "valueType": "string",
-                            "description": "Error message shown when required field is left empty."
-                        },
-                        {
-                            "component": "text",
-                            "name": "validateExpMessage",
-                            "label": "Script validation message",
-                            "valueType": "string",
-                            "description": "Displayed when validation script fails."
+                            "required": true
                         }
                     ]
                 }

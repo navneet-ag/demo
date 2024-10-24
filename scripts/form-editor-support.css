@@ -67,35 +67,21 @@ form.edit-mode .modal dialog {
 }
 
 :root.adobe-ue-edit .grecaptcha-badge {
-    display: none !important;
+    visibility: hidden ;
 }
-:root.adobe-ue-preview .grecaptcha-badge {
-    display: block !important;
-}
-
-main .form form.edit-mode .captcha-wrapper:not(.edit-mode){
-    display: none;
-}  
-
-main .form form:not(.edit-mode) .captcha-wrapper.edit-mode{
-    display: none;
-}
-
-main .form form.edit-mode .captcha-wrapper.edit-mode{
+:root.adobe-ue-preview .grecaptcha-badge { 
+     visibility: visible ;
+} 
+ 
+main .form form.edit-mode .captcha-wrapper {
     border-width: 1px;
     padding: 15px;
     font-weight: normal;
-    font-size: 13px;
+    font-size: 15px;
     text-align: left;
-    color: #969696;
+    color: #4b4b4b; 
     border-color: rgba(0 0 0 / 15%);
     border-radius: 4px;
     background: linear-gradient(180deg,rgba(0 0 0 / 5%),rgba(255 255 255 / 5%),rgba(0 0 0 / 5%)),
                 linear-gradient(90deg,rgba(0 0 0 / 5%),rgba(255 255 255 / 5%),rgba(0 0 0 / 5%));
-}
-
-form.edit-mode .captcha-wrapper.edit-mode .captcha-title {
-    text-align: left;
-    color: #4b4b4b;
-    padding-left: 25px;
 }

@@ -5,7 +5,7 @@ import {
   stripTags,
   checkValidation,
   toClassName,
-  createCaptchaWrapper,
+  getSitePageName,
 } from './util.js';
 import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorator from './mappings.js';
@@ -351,7 +351,8 @@ export async function generateFormRendition(panel, container, getItems = (p) => 
     const { fieldType } = field;
     if (fieldType === 'captcha') {
       captchaField = field;
-      const element = createCaptchaWrapper(field);
+      const element = createFieldWrapper(field);
+      element.textContent = field.label?.value || field.name;
       return element;
     }
     const element = renderField(field);
@@ -395,17 +396,6 @@ async function createFormForAuthoring(formDef) {
   return form;
 }
 
-function getSitePageName(path) {
-  if (path == null) return '';
-  const index = path.lastIndexOf('/jcr:content');
-  if (index === -1) {
-    return '';
-  }
-  const mpath = path.substring(0, index);
-  const pathArray = mpath.split('/');
-  return pathArray[pathArray.length - 1].replaceAll('-', '_');
-}
-
 export async function createForm(formDef, data) {
   const { action: formPath } = formDef;
   const form = document.createElement('form');
@@ -418,7 +408,14 @@ export async function createForm(formDef, data) {
 
   let captcha;
   if (captchaField) {
-    const config = captchaField?.properties?.['fd:captcha']?.config;
+    let config = captchaField?.properties?.['fd:captcha']?.config;
+    if (!config) {
+      config = {
+        siteKey: captchaField?.value,
+        uri: captchaField?.uri,
+        version: captchaField?.version,
+      };
+    }
     const pageName = getSitePageName(captchaField?.properties?.['fd:path']);
     captcha = new GoogleReCaptcha(config, captchaField.id, captchaField.name, pageName);
     captcha.loadCaptcha(form);
