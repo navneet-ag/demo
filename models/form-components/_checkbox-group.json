@@ -18,8 +18,8 @@
                                 "Item 1",
                                 "Item 2"
                             ],
-                            "enabled": true,
-                            "visible": true
+                            "visible": true,
+                            "enabled": true
                         }
                     }
                 }

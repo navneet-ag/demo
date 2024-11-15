@@ -211,25 +211,15 @@
           }
         },
         {
-          "title": "Checkbox group",
-          "id": "checkbox-group",
+          "title": "Captcha (Invisible)",
+          "id": "captcha",
           "plugins": {
             "xwalk": {
               "page": {
-                "resourceType": "core/fd/components/form/checkboxgroup/v1/checkboxgroup",
+                "resourceType": "core/fd/components/form/recaptcha/v1/recaptcha",
                 "template": {
-                  "jcr:title": "Checkbox Group",
-                  "fieldType": "checkbox-group",
-                  "enum": [
-                    "0",
-                    "1"
-                  ],
-                  "enumNames": [
-                    "Item 1",
-                    "Item 2"
-                  ],
-                  "enabled": true,
-                  "visible": true
+                  "jcr:title": "Captcha (Invisible)",
+                  "fieldType": "captcha"
                 }
               }
             }
@@ -248,6 +238,31 @@
                   "enabled": true,
                   "visible": true,
                   "checkedValue": "on"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Checkbox group",
+          "id": "checkbox-group",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/checkboxgroup/v1/checkboxgroup",
+                "template": {
+                  "jcr:title": "Checkbox Group",
+                  "fieldType": "checkbox-group",
+                  "enum": [
+                    "0",
+                    "1"
+                  ],
+                  "enumNames": [
+                    "Item 1",
+                    "Item 2"
+                  ],
+                  "visible": true,
+                  "enabled": true
                 }
               }
             }
@@ -364,6 +379,24 @@
           }
         },
         {
+          "title": "Modal",
+          "id": "modal",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/panelcontainer/v1/panelcontainer",
+                "template": {
+                  "jcr:title": "Modal",
+                  "fieldType": "panel",
+                  "fd:viewType": "modal",
+                  "enabled": true,
+                  "visible": false
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Number Input",
           "id": "number-input",
           "plugins": {
@@ -423,15 +456,18 @@
           }
         },
         {
-          "title": "Captcha (Invisible)",
-          "id": "captcha",
+          "title": "Rating",
+          "id": "rating",
           "plugins": {
             "xwalk": {
               "page": {
-                "resourceType": "core/fd/components/form/recaptcha/v1/recaptcha",
+                "resourceType": "core/fd/components/form/numberinput/v1/numberinput",
                 "template": {
-                  "jcr:title": "Captcha (Invisible)",
-                  "fieldType": "captcha"
+                  "jcr:title": "Rating",
+                  "fieldType": "number-input",
+                  "fd:viewType": "rating",
+                  "enabled": true,
+                  "visible": true
                 }
               }
             }
@@ -483,76 +519,6 @@
                 "template": {
                   "jcr:title": "Telephone Input",
                   "fieldType": "text-input",
-                  "enabled": true,
-                  "visible": true
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Text Input",
-          "id": "text-input",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/fd/components/form/textinput/v1/textinput",
-                "template": {
-                  "jcr:title": "Text Input",
-                  "fieldType": "text-input",
-                  "enabled": true,
-                  "visible": true
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Text",
-          "id": "plain-text",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/fd/components/form/text/v1/text",
-                "template": {
-                  "jcr:title": "Text",
-                  "fieldType": "plain-text",
-                  "visible": true,
-                  "textIsRich": true
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Modal",
-          "id": "modal",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/fd/components/form/panelcontainer/v1/panelcontainer",
-                "template": {
-                  "jcr:title": "Modal",
-                  "fieldType": "panel",
-                  "fd:viewType": "modal",
-                  "enabled": true,
-                  "visible": false
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Rating",
-          "id": "rating",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/fd/components/form/numberinput/v1/numberinput",
-                "template": {
-                  "jcr:title": "Rating",
-                  "fieldType": "number-input",
-                  "fd:viewType": "rating",
                   "enabled": true,
                   "visible": true
                 }
@@ -613,6 +579,40 @@
                     "enabled": true,
                     "visible": true
                   }
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Text",
+          "id": "plain-text",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/text/v1/text",
+                "template": {
+                  "jcr:title": "Text",
+                  "fieldType": "plain-text",
+                  "visible": true,
+                  "textIsRich": true
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Text Input",
+          "id": "text-input",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/textinput/v1/textinput",
+                "template": {
+                  "jcr:title": "Text Input",
+                  "fieldType": "text-input",
+                  "enabled": true,
+                  "visible": true
                 }
               }
             }
