@@ -5,6 +5,7 @@ import {
   stripTags,
   checkValidation,
   toClassName,
+  getSitePageName,
 } from './util.js';
 import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorator from './mappings.js';
@@ -84,7 +85,7 @@ const createSelect = withFieldWrapper((fd) => {
   const addOption = (label, value) => {
     const option = document.createElement('option');
     option.textContent = label instanceof Object ? label?.value?.trim() : label?.trim();
-    option.value = value?.trim() || label?.trim();
+    option.value = (typeof value === 'string' ? value.trim() : value) || label?.trim();
     if (fd.value === option.value || (Array.isArray(fd.value) && fd.value.includes(option.value))) {
       option.setAttribute('selected', '');
       optionSelected = true;
@@ -337,7 +338,7 @@ function renderField(fd) {
     field.append(createHelpText(fd));
     field.dataset.description = fd.description; // In case overriden by error message
   }
-  if (fd.fieldType !== 'radio-group' && fd.fieldType !== 'checkbox-group') {
+  if (fd.fieldType !== 'radio-group' && fd.fieldType !== 'checkbox-group' && fd.fieldType !== 'captcha') {
     inputDecorator(fd, field);
   }
   return field;
@@ -350,20 +351,21 @@ export async function generateFormRendition(panel, container, getItems = (p) => 
     const { fieldType } = field;
     if (fieldType === 'captcha') {
       captchaField = field;
-    } else {
-      const element = renderField(field);
-      if (field.appliedCssClassNames) {
-        element.className += ` ${field.appliedCssClassNames}`;
-      }
-      colSpanDecorator(field, element);
-      if (field?.fieldType === 'panel') {
-        await generateFormRendition(field, element, getItems);
-        return element;
-      }
-      await componentDecorator(element, field, container);
+      const element = createFieldWrapper(field);
+      element.textContent = 'CAPTCHA';
       return element;
     }
-    return null;
+    const element = renderField(field);
+    if (field.appliedCssClassNames) {
+      element.className += ` ${field.appliedCssClassNames}`;
+    }
+    colSpanDecorator(field, element);
+    if (field?.fieldType === 'panel') {
+      await generateFormRendition(field, element, getItems);
+      return element;
+    }
+    await componentDecorator(element, field, container);
+    return element;
   });
 
   const children = await Promise.all(promises);
@@ -406,8 +408,16 @@ export async function createForm(formDef, data) {
 
   let captcha;
   if (captchaField) {
-    const siteKey = captchaField?.properties?.['fd:captcha']?.config?.siteKey || captchaField?.value;
-    captcha = new GoogleReCaptcha(siteKey, captchaField.id);
+    let config = captchaField?.properties?.['fd:captcha']?.config;
+    if (!config) {
+      config = {
+        siteKey: captchaField?.value,
+        uri: captchaField?.uri,
+        version: captchaField?.version,
+      };
+    }
+    const pageName = getSitePageName(captchaField?.properties?.['fd:path']);
+    captcha = new GoogleReCaptcha(config, captchaField.id, captchaField.name, pageName);
     captcha.loadCaptcha(form);
   }
 
