@@ -38,7 +38,7 @@
   --heading-font-size-xs: 18px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 42px;
 }
 
 @font-face {
@@ -207,4 +207,18 @@ main .section {
 main .section.light,
 main .section.highlight {
   background-color: var(--light-color);
+}
+
+
+.section.cmp-container-container {
+
+  padding: 0;
+}
+
+header {
+  background-color: #202020;
+}
+
+.cmp-container-container img {
+  max-width: 8rem;
 }

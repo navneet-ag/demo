@@ -3,7 +3,7 @@
     --label-color: #666;
     --border-color: #818a91;
     --form-error-color: #ff5f3f;
-    --button-primary-color: #5F8DDA;
+    --button-primary-color: #161616;
     --button-secondary-color: #666;
     --button-primary-hover-color: #035fe6;
     --form-font-size-m: 22px;
@@ -397,24 +397,30 @@ main .form form .wizard .wizard-button-wrapper .field-wrapper{
 
 main .form form .wizard .wizard-menu-item {
   counter-increment: wizard-step-counter;
+  text-transform: uppercase;
+  font-size: 16px;
+  padding: 16px;
+}
+
+main .form form .wizard .wizard-menu-active-item {
+    background-color: #eee;
 }
 
 main .form form .wizard .wizard-menu-item::before {
   content: counter(wizard-step-counter);
-  border: 2px solid var(--form-wizard-number-color);
-  color: var(--form-wizard-number-color);
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  border: 2px solid black;
+  color: #6d6d6d;
+  width: 18px;
+  height: 18px;
   margin-right: 10px;
   text-align: center;
-  line-height: 2;
+  line-height: 1;
   display: inline-block;
 }
 
 main .form form .wizard .wizard-menu-active-item::before{
-  border: 2px solid var(--form-wizard-number-color);
-  background: var(--form-wizard-number-color);
+  border: 2px solid black;
+  background: var(--button-primary-color);
   color: var(--background-color-primary);
   font-weight: 600;
 }
