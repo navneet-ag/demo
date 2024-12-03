@@ -171,6 +171,7 @@ main .form fieldset legend {
     border-bottom: var(--form-fieldset-legend-border);
     width: 100%;
     padding: var(--form-fieldset-legend-padding);
+    margin-bottom: 10px;
 }
 
 main .form label {
