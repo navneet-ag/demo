@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: https://author-p67319-e1500020-cmstg.adobeaemcloud.com/bin/franklin.delivery/jalagari/demo/main
+    url: https://author-p67319-e1500020.adobeaemcloud.com/bin/franklin.delivery/jalagari/demo/main
     type: "markup"
     suffix: ".html"
