@@ -184,6 +184,9 @@ function createRadioOrCheckboxGroup(fd) {
       enum: [value],
       required: fd.required,
     });
+    if (fd.properties['afs:layout'] && fd.properties['afs:layout'].orientation === 'horizontal') {
+      wrapper.classList.add('field-group-horizontal');
+    }
     field.classList.remove('field-wrapper', `field-${toClassName(fd.name)}`);
     const input = field.querySelector('input');
     input.id = id;
