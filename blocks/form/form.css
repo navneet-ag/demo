@@ -567,7 +567,7 @@ main .form form:not(.edit-mode) .captcha-wrapper{
     display: none ;
 }
 
-.field-group-horizontal {
+main .form form .horizontal {
     display: flex;
     flex-direction: row;
     gap: inherit;
